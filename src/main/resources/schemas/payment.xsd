@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           targetNamespace="http://example.com/payment"
+           xmlns:tns="http://example.com/payment"
+           elementFormDefault="qualified">
+
+    <xs:element name="paymentRequest">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="transactionId" type="xs:string"/>
+                <xs:element name="amount" type="xs:decimal"/>
+                <xs:element name="currency" type="xs:string"/>
+                <xs:element name="paymentMethod" type="tns:PaymentMethod"/>
+                <xs:element name="customerDetails">
+                    <xs:complexType>
+                        <xs:sequence>
+                            <xs:element name="customerId" type="xs:string"/>
+                            <xs:element name="email" type="xs:string"/>
+                        </xs:sequence>
+                    </xs:complexType>
+                </xs:element>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:complexType name="PaymentMethod">
+        <xs:choice>
+            <xs:element name="creditCard" type="tns:CreditCardDetails"/>
+            <xs:element name="payPal" type="tns:PayPalDetails"/>
+        </xs:choice>
+    </xs:complexType>
+
+    <xs:complexType name="CreditCardDetails">
+        <xs:sequence>
+            <xs:element name="cardNumber" type="xs:string"/>
+            <xs:element name="expiryDate" type="xs:string"/>
+            <xs:element name="cvv" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="PayPalDetails">
+        <xs:sequence>
+            <xs:element name="email" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:element name="paymentResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="resultCode" type="xs:string"/>
+                <xs:element name="message" type="xs:string"/>
+                <xs:element name="authorizationId" type="xs:string" minOccurs="0"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+</xs:schema>
